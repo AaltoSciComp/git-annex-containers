@@ -14,7 +14,7 @@ $ apptainer build git-annex.sif git-annex.def
 
 Building from the docker image:
 ```console
-$ apptainer build git-annex.sif docker://harbor.cs.aalto.fi/aaltorse/git-annex:latest
+$ apptainer build git-annex.sif docker://harbor.cs.aalto.fi/aaltorse-public/git-annex:latest
 ```
 
 Running:
@@ -40,3 +40,7 @@ shell"` Special cases of `git-annex shell`:
 It's in the Dockerfile, but there may not be much need to use this.
 Docker is made mainly so that you can build Apptainer from docker by
 pulling the image.
+
+```console
+$ docker pull harbor.cs.aalto.fi/aaltorse-public/git-annex:latest
+```
