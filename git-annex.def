@@ -1,0 +1,55 @@
+Bootstrap: docker
+From: ubuntu:latest
+Stage: dev
+
+%help
+    A container which runs git-annex.  The run command is `git-annex`.
+    `./git-annex.sif version` will print the current version.
+
+%post
+    cd /
+    apt-get update
+    apt-get install -y wget
+
+    wget https://downloads.kitenet.net/git-annex/linux/current/git-annex-standalone-amd64.tar.gz
+    tar xf git-annex-standalone-amd64.tar.gz
+    rm git-annex-standalone-amd64.tar.gz
+
+
+
+Bootstrap: docker
+From: ubuntu:latest
+Stage: final
+
+# install binary from stage one
+%files from dev
+    /git-annex.linux
+
+%post
+    CREATED=`date`
+    echo "export CREATED=\"${NOW}\"" >> $APPTAINER_ENVIRONMENT
+    echo "export VERSION=\"$(/git-annex.linux/git-annex version)\"" >> $APPTAINER_ENVIRONMENT
+
+%environment
+    PATH=/git-annex.linux/:$PATH
+
+%runscript
+    # This would usually not be needed.  You can `git-annex shell` just as well.
+    if [ "$APPTAINER_NAME" = "git-annex-shell" ] ; then
+        git-annex-shell "$@"
+    else
+        git-annex "$@"
+    fi
+
+%test
+    git-annex version
+
+%help
+    git-annex as an image.  Can be run with ./git-annex.sif
+
+    For ssh-agent to work, consider `SINGULARITY_BIND=$SSH_AUTH_SOCK`.
+
+    To use as a git-annex shell,
+      git config remote.NAME.annex-shell "/path/to/git-annex.sif shell"
+    Or if you need to bind-mount some directories that are not default:
+      git config remote.NAME.annex-shell "apptainer run -B /scratch /path/to/git-annex.sif shell
