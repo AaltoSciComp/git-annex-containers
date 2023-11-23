@@ -23,6 +23,11 @@ Running:
 $ ./git-annex.sif [git-annex commands]
 ```
 
+You can rename the `.sif` file to `git-annex` and put it in a
+directory on `PATH`, and then it will function exactly like the
+`annex` subcommand for whatever git you have installed.
+`git-annex.sif shell` serves as the `git-annex-shell` s
+
 For `git-annex shell` access, `git-annex.sif shell` can be used, for
 example: `git config remote.NAME.annex-shell "/path/to/git-annex.sif
 shell"` Special cases of `git-annex shell`:
