@@ -98,3 +98,8 @@ As of 2023, just created and seems to work.  Improvements welcome
 
 * [git-annex installation
   page](https://git-annex.branchable.com/install/)
+* [git-annex Linux binary
+  installation](https://git-annex.branchable.com/install/Linux_standalone/) -
+  works in very many cases you might need this at the expense of
+  managing the unpacked files and paths.  It is a tarball, unpack and
+  add to PATH.
