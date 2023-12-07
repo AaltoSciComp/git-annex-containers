@@ -9,26 +9,32 @@ documentation for that use case.
 
 ## Apptainer / Singularity
 
-Building from source:
-
+Download the latest:
 ```console
-$ apptainer build git-annex.sif git-annex.def
+$ wget https://github.com/AaltoSciComp/git-annex-containers/releases/download/latest/git-annex.sif
 ```
 
 Building from the docker image:
 ```console
-$ apptainer build git-annex.sif docker://harbor.cs.aalto.fi/aaltorse-public/git-annex:latest
+$ apptainer build git-annex.sif docker://ghcr.io/aaltoscicomp/git-annex:latest
+```
+
+The Dockerfile is the primary build (and that is how the released
+`git-annex.sif` is made).  An old singularity definition
+file is included in case it is important for you:
+```console
+$ apptainer build git-annex.sif git-annex.def
 ```
 
 Running:
-
 ```console
 $ ./git-annex.sif [git-annex commands]
 ```
 
 You can rename the `.sif` file to `git-annex` and put it in a
 directory on `PATH`, and then it will function exactly like the
-`annex` subcommand for your normal git installation.
+`annex` subcommand for your normal git installation: you can run `git
+annex`.
 
 For use as a remote over SSH, you need to set up **git-annex-shell**.
 You can use `git-annex.sif shell` can be used, for
@@ -39,8 +45,9 @@ shell"` Special cases that may occur:
   remote.NAME.annex-shell "apptainer run -B /scratch /path/to/git-annex.sif
   shell"`
 
-On your own computer, git-annex can access your SSH authentication
-(keys, ControlMaster sockets).  But there are some special cases:
+On your own computer,this git-annex container can access your SSH
+authentication (keys, ControlMaster sockets).  But there are some
+special cases:
 * To access your SSH agent, you need to bind the socket inside.  You
   can `export SINGULARITY_BIND=$SSH_AUTH_SOCK` or run `apptainer run
   -B $SSH_AUTH_SOCK git_annex.sif`
@@ -54,11 +61,11 @@ On your own computer, git-annex can access your SSH authentication
 
 ## Docker
 
-There's a Dockerfile here, but there may not be much use for it.
+There's a Dockerfile here, but there may not be much use for it since
+this is designed to be run in the Apptainer style as a local utility.
 Docker is made mainly so that you can build Apptainer from docker by
-pulling the image.  But otherwise, it should work similar to Apptainer
-above.
+pulling the image.
 
 ```console
-$ docker pull harbor.cs.aalto.fi/aaltorse-public/git-annex:latest
+$ docker pull ghcr.io/aaltoscicomp/git-annex:latest
 ```
