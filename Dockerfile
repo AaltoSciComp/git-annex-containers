@@ -13,15 +13,15 @@ RUN \
 FROM alpine
 WORKDIR /mnt
 COPY --from=0 /git-annex.linux /git-annex.linux
+COPY entrypoint.sh /
+# $HOME needed because it tries to make a cache there
 RUN \
     mkdir -p /mnt && \
     chown 1000 /home && \
     chown 1000 /mnt && \
-    echo '#!/bin/sh' > /entry.sh && \
-    echo 'git-annex "$@"' >> /entry.sh && \
-    chmod a+rx /entry.sh
+    chmod a+rx /entrypoint.sh
 ENV PATH="/git-annex.linux/:${PATH}"
 ENV HOME=/home
 USER 1000
 #CMD git-annex "$@"
-ENTRYPOINT ["/entry.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
