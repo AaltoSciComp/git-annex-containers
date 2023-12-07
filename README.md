@@ -1,15 +1,25 @@
 # Container definitions for git-annex
 
-Containerized versions of git-annex, for use when installing git-annex
-may be a bit more work than you'd like.  This is expected to be
-especially useful on computer clusters, so we provide extra
-documentation for that use case.
+Containerized versions of
+[git-annex](https://git-annex.branchable.com/), for use when
+installing git-annex may be a bit more work than you'd like.  This is
+expected to be especially useful on computer clusters, so we provide
+extra documentation for that use case.
+
+This works by installing the git-annex standalone distribution inside
+of an Alpine Linux container.
 
 
 
 ## Apptainer / Singularity
 
-Download the latest:
+[Apptainer](https://apptainer.org/) (formerly
+[Singularity](https://en.wikipedia.org/wiki/Singularity_(software)) is
+a container system especially designed for command line apps and/or
+HPC clusters.  It emphasizes a good interface for running from the
+command line.
+
+Download the latest raw image:
 ```console
 $ wget https://github.com/AaltoSciComp/git-annex-containers/releases/download/latest/git-annex.sif
 ```
@@ -30,6 +40,8 @@ Running:
 ```console
 $ ./git-annex.sif [git-annex commands]
 ```
+
+### Apptainer usage tips
 
 You can rename the `.sif` file to `git-annex` and put it in a
 directory on `PATH`, and then it will function exactly like the
@@ -62,10 +74,27 @@ special cases:
 ## Docker
 
 There's a Dockerfile here, but there may not be much use for it since
-this is designed to be run in the Apptainer style as a local utility.
-Docker is made mainly so that you can build Apptainer from docker by
-pulling the image.
+the point of this repo is to run against local data, and docker isn't
+the ideal way to do that.  Still, might be useful.
+
+The Dockerfile is made mainly so that you can build Apptainer from
+docker by pulling the image (and this is the main way that Apptainer
+is build now).
 
 ```console
 $ docker pull ghcr.io/aaltoscicomp/git-annex:latest
 ```
+
+
+
+## Status
+
+As of 2023, just created and seems to work.  Improvements welcome
+(including usage tips)
+
+
+
+## See also
+
+* [git-annex installation
+  page](https://git-annex.branchable.com/install/)
